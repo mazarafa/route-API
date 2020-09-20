@@ -1,16 +1,20 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const requireDir = require('require-dir');
 
 // starting application
 const app = express();
+app.use(express.json());
 
 // starting the database
-mongoose.connect('mongodb://localhost:27017/router-API',{useNewUrlParser:True});
+mongoose.connect(
+    "mongodb://localhost:27017/router-API",
+    {useNewUrlParser:true}
+);
+requireDir("./src/models");
 
-//first route
-app.get('/',(req,res) => {
 
-    res.send("Olá Mundo!");
-});
+//route
+app.use("/api", require("./src/router"));
 
 app.listen(3001);
